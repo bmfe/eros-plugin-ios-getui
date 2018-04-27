@@ -7,7 +7,7 @@
 
 #import "BMPushModule.h"
 #import "BMPushMessageManager.h"
-#import <WeexPluginLoader/WeexPluginLoader.h>
+#import <WeexPluginLoader/WeexPluginLoader/WeexPluginLoader.h>
 #import "NSDictionary+Util.h"
 
 WX_PlUGIN_EXPORT_MODULE(bmPush, BMPushModule)

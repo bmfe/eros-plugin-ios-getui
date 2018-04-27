@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <WeexSDK.h>
+#import <WeexSDK/WeexSDK.h>
 
 @interface BMPushModule : NSObject <WXModuleProtocol>
 
