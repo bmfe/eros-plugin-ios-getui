@@ -9,6 +9,7 @@
 #import "BMPushMessageManager.h"
 #import "BMGlobalEventManager.h"
 #import "BMConfigManager.h"
+#import "BMMediatorManager.h"
 
 // iOS10 及以上需导入 UserNotifications.framework
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
@@ -72,14 +73,22 @@
  */
 - (void)analysisRemoteNotification:(NSDictionary *)userInfo
 {
+    if (![BMMediatorManager shareInstance].currentWXInstance) {
+        [[self class] addPushNotification:userInfo];
+        return;
+    }
+    
     [BMGlobalEventManager pushMessage:userInfo appLaunchedByNotification:self.isLaunchedByNotification];
 }
 
 /** 当首屏渲染完毕通知响应方法 */
 - (void)firstScreenDidFinished:(NSNotification *)not
 {
-    [self analysisRemoteNotification:_pushMessage];
-    _pushMessage = nil;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.isLaunchedByNotification = YES;
+        [self analysisRemoteNotification:_pushMessage];
+        _pushMessage = nil;
+    });
     [[NSNotificationCenter defaultCenter] removeObserver:[BMPushMessageManager shareInstance] name:BMFirstScreenDidFinish object:nil];
 }
 
