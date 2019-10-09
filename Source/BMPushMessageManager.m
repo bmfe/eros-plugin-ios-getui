@@ -244,7 +244,7 @@
     [GeTuiSdk registerDeviceToken:[BMPushMessageManager shareInstance]->_deviceToken];
 }
 
-- (NSString *)hexadecimalString:(NSData *)data 
++ (NSString *)hexadecimalString:(NSData *)data 
 {
     const unsigned char *dataBuffer = (const unsigned char *)[data bytes];
 
