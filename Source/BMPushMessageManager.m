@@ -236,12 +236,30 @@
 
 + (void)registerForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-    NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    NSString *token = [self hexadecimalString:deviceToken];
     [BMPushMessageManager shareInstance]->_deviceToken = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
     WXLogInfo(@"deviceToken:%@", [BMPushMessageManager shareInstance]->_deviceToken);
     
     // [3]:向个推服务器注册deviceToken
     [GeTuiSdk registerDeviceToken:[BMPushMessageManager shareInstance]->_deviceToken];
+}
+
++ (NSString *)hexadecimalString:(NSData *)data 
+{
+    const unsigned char *dataBuffer = (const unsigned char *)[data bytes];
+
+    if (!dataBuffer) {
+        return [NSString string];
+    }
+
+    NSUInteger dataLength  = [data length];
+    NSMutableString *hexString  = [NSMutableString stringWithCapacity:(dataLength * 2)];
+
+    for (int i = 0; i < dataLength; ++i) {
+        [hexString appendFormat:@"%02x", (unsigned int)dataBuffer[i]];
+    }
+
+    return [NSString stringWithString:hexString];
 }
 
 + (void)performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
