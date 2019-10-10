@@ -11,5 +11,5 @@ Pod::Spec.new do |s|
   s.source = { :git => 'https://github.com/bmfe/eros-plugin-ios-getui.git', :tag => s.version.to_s }
   s.source_files = "Source/*.{h,m,mm}"
   s.requires_arc = true
-  s.dependency 'GTSDK', '2.2.0.0-noidfa'
+  s.dependency 'GTSDK', '2.4.1.0-noidfa'
 end
